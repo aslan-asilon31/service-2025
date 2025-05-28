@@ -14,10 +14,6 @@ return new class extends Migration
         Schema::create('tr_sp_simpan_rak_header', function (Blueprint $table) {
             $table->uuid('id')->primary();
 
-            $table->uuid('simpan_rak_header_polimorf_id');
-            $table->foreign('simpan_rak_header_polimorf_id', 'fk_simpan_rak_header_polimorf_id')->references('id')->on('tr_sp_simpan_rak_header_polimorf')->onDelete('cascade')->onUpdate('cascade');
-
-
             $table->string('nama');
             $table->integer('nomor');
             $table->string('dibuat_oleh');

@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::create('tr_sp_ambil_rak_header', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('ambil_rak_id');
-            $table->foreign('ambil_rak_id', 'fk_ambil_rak_header_polimorf_id')->references('id')->on('tr_sp_ambil_rak_header_polimorf')->onDelete('cascade')->onUpdate('cascade');
-
             $table->string('nama');
             $table->integer('nomor');
             $table->string('dibuat_oleh');
