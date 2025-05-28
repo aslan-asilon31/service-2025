@@ -13,18 +13,22 @@ return new class extends Migration
     {
         Schema::create('tr_sp_mutasi_gudang_kirim_detail', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('mutasi_gudang_kirim_id');
-            $table->foreign('mutasi_gudang_kirim_id', 'fk_mutasi_gudang_kirim_id')->references('id')->on('tr_sp_mutasi_gudang_kirim_header')->onDelete('cascade')->onUpdate('cascade');
+            $table->uuid('tr_sp_mutasi_gudang_kirim_detail_id');
+            $table->foreign('tr_sp_mutasi_gudang_kirim_detail_id', 'fk_tr_sp_mutasi_gudang_kirim_detail_id')->references('id')->on('tr_sp_mutasi_gudang_kirim_header')->onDelete('cascade')->onUpdate('cascade');
 
             $table->uuid('ms_barang_id');
             $table->foreign('ms_barang_id')->references('id')->on('ms_barang')->onDelete('cascade')->onUpdate('cascade');
+            $table->uuid('ms_rak_id');
+            $table->foreign('ms_rak_id')->references('id')->on('ms_rak')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->text('catatan')->nullable();
 
             $table->integer('qty');
             $table->string('dibuat_oleh', 255)->nullable()->index();
             $table->string('diupdate_oleh', 255)->nullable()->index();
             $table->timestamp('tgl_dibuat');
             $table->timestamp('tgl_diupdate');
-            $table->integer('status')->index()->default('active');
+            $table->string('status')->index()->default('aktif');
         });
     }
 

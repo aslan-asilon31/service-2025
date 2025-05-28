@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('ms_barang', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('sync_id', 36)->nullable();
             $table->string('nama', 255);
-            $table->integer('nomor', 255);
+            $table->integer('nomor');
             $table->string('dibuat_oleh', 255)->nullable()->index();
             $table->string('diupdate_oleh', 255)->nullable()->index();
             $table->timestamp('tgl_dibuat');
             $table->timestamp('tgl_diupdate');
-            $table->integer('status')->index()->default('active');
+            $table->string('status')->index()->default('aktif');
         });
     }
 
