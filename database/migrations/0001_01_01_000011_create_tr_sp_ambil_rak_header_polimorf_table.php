@@ -15,13 +15,13 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('ambil_rak_id');
             $table->string('ambil_rak_tipe');
-            $table->string('nama');
-            $table->integer('nomor');
-            $table->string('dibuat_oleh');
-            $table->string('diupdate_oleh');
-            $table->timestamp('tgl_dibuat')->nullable();
-            $table->timestamp('tgl_diupdate')->nullable();
-            $table->integer('status')->default(1);
+            $table->string('nama', 255);
+            $table->integer('nomor', 255);
+            $table->string('dibuat_oleh', 255)->nullable()->index();
+            $table->string('diupdate_oleh', 255)->nullable()->index();
+            $table->timestamp('tgl_dibuat');
+            $table->timestamp('tgl_diupdate');
+            $table->integer('status')->index()->default('active');
         });
     }
 
