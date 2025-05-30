@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 class TrSpMutasiGudangHeader extends Model
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, HasRoles;
 
     public function newUniqueId(): string
     {
@@ -17,6 +18,7 @@ class TrSpMutasiGudangHeader extends Model
     protected $guarded = [];
     protected $keyType = 'string';
     public $incrementing = false;
+    public $timestamps = false;
 
     protected function casts(): array
     {

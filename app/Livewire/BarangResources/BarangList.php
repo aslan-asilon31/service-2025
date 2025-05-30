@@ -30,16 +30,16 @@ class BarangList extends Component
 
   public bool $filterDrawer;
 
-  public array $sortBy = ['column' => 'name', 'direction' => 'desc'];
+  public array $sortBy = ['column' => 'nama', 'direction' => 'desc'];
 
   #[Url(except: '')]
   public array $filters = [];
   public array $filterForm = [
-    'name' => '',
+    'nama' => '',
     'selling_price' => '',
     'image_url' => '',
     'is_activated' => '',
-    'created_at' => '',
+    'tgl_dibuat' => '',
   ];
 
 
@@ -52,12 +52,12 @@ class BarangList extends Component
       ['key' => 'action', 'label' => 'Action', 'sortable' => false, 'class' => 'whitespace-nowrap border-1 border-l-1 border-gray-300 dark:border-gray-600 text-center'],
       ['key' => 'no_urut', 'label' => '#', 'sortable' => false, 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-right'],
       ['key' => 'id', 'label' => 'ID', 'sortBy' => 'id', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-left'],
-      ['key' => 'name', 'label' => 'Name', 'sortBy' => 'name', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-left'],
+      ['key' => 'nama', 'label' => 'Nama', 'sortBy' => 'nama', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-left'],
       ['key' => 'image_url', 'label' => 'Image Url', 'sortBy' => 'image_url',  'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-left'],
       ['key' => 'selling_price', 'label' => 'Selling Price', 'sortBy' => 'selling_price', 'format' => ['currency', '2.,', ''], 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-right'],
       ['key' => 'is_activated', 'label' => 'Activate', 'sortBy' => 'is_activated', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-center'],
       ['key' => 'availability', 'label' => 'Availability', 'sortBy' => 'availability', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-center'],
-      ['key' => 'created_at', 'label' => 'Created At', 'format' => ['date', 'Y-m-d H:i:s'], 'sortBy' => 'created_at', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-center']
+      ['key' => 'tgl_dibuat', 'label' => 'Created At', 'format' => ['date', 'Y-m-d H:i:s'], 'sortBy' => 'tgl_dibuat', 'class' => 'whitespace-nowrap  border-1 border-l-1 border-gray-300 dark:border-gray-600 text-center']
     ];
   }
 
@@ -67,15 +67,15 @@ class BarangList extends Component
 
     $query = MsBarang::query();
 
-    $query->when($this->search, fn($q) => $q->where('name', 'like', "%{$this->search}%"))
-      ->when(($this->filters['name'] ?? ''), fn($q) => $q->where('name', 'like', "%{$this->filters['name']}%"))
+    $query->when($this->search, fn($q) => $q->where('nama', 'like', "%{$this->search}%"))
+      ->when(($this->filters['nama'] ?? ''), fn($q) => $q->where('nama', 'like', "%{$this->filters['nama']}%"))
       ->when(($this->filters['image_url'] ?? ''), fn($q) => $q->where('image_url', "%{$this->filters['image_url']}%"))
       ->when(($this->filters['selling_price'] ?? ''), fn($q) => $q->where('selling_price', $this->filters['selling_price']))
       ->when((($this->filters['is_activated']  ?? '') != ''), fn($q) => $q->where('is_activated', $this->filters['is_activated']))
-      ->when(($this->filters['created_at'] ?? ''), function ($q) {
-        $dateTime = $this->filters['created_at'];
+      ->when(($this->filters['tgl_dibuat'] ?? ''), function ($q) {
+        $dateTime = $this->filters['tgl_dibuat'];
         $dateOnly = substr($dateTime, 0, 10);
-        $q->whereDate('created_at', $dateOnly);
+        $q->whereDate('tgl_dibuat', $dateOnly);
       });
 
     $paginator = $query
@@ -96,19 +96,15 @@ class BarangList extends Component
   {
     $validatedFilters = $this->validate(
       [
-        'filterForm.name' => 'nullable|string',
-        'filterForm.image_url' => 'nullable|string',
-        'filterForm.selling_price' => 'nullable|integer',
-        'filterForm.is_activated' => 'nullable|integer',
-        'filterForm.created_at' => 'nullable|string',
+        'filterForm.nama' => 'nullable|string',
+        'filterForm.status' => 'nullable|integer',
+        'filterForm.tgl_dibuat' => 'nullable|string',
       ],
       [],
       [
-        'filterForm.name' => 'Name',
-        'filterForm.image_url' => 'Image URL',
-        'filterForm.selling_price' => 'Selling Price',
-        'filterForm.is_activated' => 'Is Activated',
-        'filterForm.created_at' => 'Created At',
+        'filterForm.nama' => 'Nama',
+        'filterForm.status' => 'Status',
+        'filterForm.tgl_dibuat' => 'Tanggal Dibuat',
       ]
     )['filterForm'];
 
@@ -128,7 +124,7 @@ class BarangList extends Component
 
   public function delete()
   {
-    $masterData = Product::findOrFail($this->id);
+    $masterData = MsBarang::findOrFail($this->id);
 
     \Illuminate\Support\Facades\DB::beginTransaction();
     try {
@@ -148,7 +144,7 @@ class BarangList extends Component
 
   public function render()
   {
-    return view('livewire.product-resources.product-list')
+    return view('livewire.barang-resources.barang-list')
       ->title($this->title);
   }
 }

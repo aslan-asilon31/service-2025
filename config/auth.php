@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => env('AUTH_GUARD', 'web'),
         'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        // 'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
     ],
 
     /*
@@ -39,7 +40,13 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            // 'provider' => 'users',
         ],
+
+        // 'ms_pegawai' => [ // ← Tambahkan ini
+        //     'driver' => 'session',
+        //     'provider' => 'ms_pegawai',
+        // ],
     ],
 
     /*
@@ -62,13 +69,11 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => env('AUTH_MODEL', App\Models\MsPegawai::class),
+            // 'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+
     ],
 
     /*

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\SpAmbilRakResources;
 
 use Livewire\Component;
 
-class SpAmbilRak extends Component
+class SpAmbilRakList extends Component
 {
     public function render()
     {

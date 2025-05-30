@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\SpKirimResources;
 
 use Livewire\Component;
 
-class SpKerja extends Component
+class SpKirimList extends Component
 {
     public function render()
     {

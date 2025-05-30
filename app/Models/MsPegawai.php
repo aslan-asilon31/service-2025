@@ -5,18 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
 
-class Pegawai extends Model
+// class MsPegawai extends Authenticatable
+class MsPegawai  extends  Authenticatable
 {
-    use HasFactory, HasUuids;
+    use HasFactory, HasUuids, HasApiTokens, HasRoles;
 
     public function newUniqueId(): string
     {
         return (string) str()->orderedUuid();
     }
-    protected $guarded = [];
+    // protected $guarded = [];
+
+    protected $fillable = ['nama', 'email', 'password'];
+
+    protected $hidden = ['password'];
+
     protected $keyType = 'string';
     public $incrementing = false;
+    public $table = 'ms_pegawai';
+    public $timestamps = false;
 
     protected function casts(): array
     {
@@ -29,5 +40,15 @@ class Pegawai extends Model
     protected function serializeDate(\DateTimeInterface $date): string
     {
         return $date->format('Y-m-d H:i:s');
+    }
+
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
+    public function getAuthIdentifierName()
+    {
+        return $this->email;
     }
 }

@@ -31,7 +31,8 @@
       <x-menu-item title="Kategori Rak" icon="o-tag" link="/barang/" :class="request()->is('barang/') ? 'active' : ''" />
 
       <x-menu-separator title="Surat Perintah" icon="o-document-text" />
-      <x-menu-item title="Tanda Terima Service" icon="o-building-office" link="/barang/" :class="request()->is('barang/') ? 'active' : ''" />
+      <x-menu-item title="Tanda Terima Service" icon="o-building-office" link="/sp-tanda-terima-service/"
+        :class="request()->is('barang/') ? 'active' : ''" />
       <x-menu-item title="Kerja" icon="o-cube" link="/barang/" :class="request()->is('barang/') ? 'active' : ''" />
       <x-menu-item title="Ambil Rak" icon="o-building-office" link="/barang/" :class="request()->is('barang/') ? 'active' : ''" />
       <x-menu-item title="Kirim" icon="o-building-office" link="/barang/" :class="request()->is('barang/') ? 'active' : ''" />
